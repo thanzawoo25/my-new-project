@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import NavBar from "./NavBar";
 
 const AddonsCategories = () => {
+    console.log("hello")
     return (
         <Box>
             <NavBar/>

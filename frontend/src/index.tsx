@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     element:<Addons/>
   },
   {
-    path: "/addons-categories",
+    path: "/addon-categories",
     element:<AddonsCategories/>
   },
   {
