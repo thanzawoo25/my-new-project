@@ -1,6 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from "./Layout";
 
 const Login = () => {
     const [user, setUser] = useState({ email: "", password: "" })
@@ -17,12 +18,19 @@ const Login = () => {
         //console.log(await response.json())
         // console.log(response)
         if (response.ok) {
+            const responseData = await response.json()
+            //console.log("accessToken",responseData)
+
+            const accessToken = responseData.accessToken;
+            localStorage.setItem("accessToken:",accessToken)
+
             navigate("/")
         }
            
     }
     return (
-        <Box sx={{display:"flex",flexDirection:"column",margin:"0 auto",maxWidth:"300px",alignItems:"center"}}>
+        <Layout>
+            <Box sx={{display:"flex",flexDirection:"column",margin:"0 auto",maxWidth:"300px",alignItems:"center",mt:6}}>
             
             <TextField 
             id="outlined-basic" 
@@ -45,6 +53,7 @@ const Login = () => {
                 Login
             </Button>
         </Box>
+        </Layout>
     )
 }
 export default Login; 

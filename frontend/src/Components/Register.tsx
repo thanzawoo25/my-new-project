@@ -1,5 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
+import Layout from "./Layout";
 
 const Register = () => {
     const [user, setUser] = useState({ name: "", email: "", password: "" })
@@ -16,7 +17,8 @@ const Register = () => {
            
     }
     return (
-        <Box sx={{display:"flex",flexDirection:"column",maxWidth:"300px",alignItems:"center",margin:"0 auto"}}>
+        <Layout >
+            <Box sx={{display:"flex",flexDirection:"column",maxWidth:"300px",alignItems:"center",margin:"0 auto",mt:6}}>
             <TextField 
             id="outlined-basic" 
             sx={{minWidth:"200px"}}
@@ -46,6 +48,7 @@ const Register = () => {
                 Register
             </Button>
         </Box>
+        </Layout>
     )
 }
 export default Register; 
