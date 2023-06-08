@@ -18,6 +18,7 @@ const Register = () => {
     }
     return (
         <Layout >
+            <p style={{textAlign:"center"}}>Please register.</p>
             <Box sx={{display:"flex",flexDirection:"column",maxWidth:"300px",alignItems:"center",margin:"0 auto",mt:6}}>
             <TextField 
             id="outlined-basic" 

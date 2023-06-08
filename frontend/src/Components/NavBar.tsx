@@ -33,20 +33,33 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import ClassIcon from "@mui/icons-material/Class";
 import CategoryIcon from "@mui/icons-material/Category";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const sidebarMenuItems = [
-  { id: 1, label: "Orders", icon: <LocalMallIcon />, route: "/orders" },
-  { id: 2, label: "Menus", icon: <LocalDiningIcon />, route: "/menus" },
+  { id: 1,
+    label: "Orders",
+    icon: <LocalMallIcon />,
+    route: "/orders"
+  },
+  { id: 2,
+    label: "Menus",
+    icon: <LocalDiningIcon />,
+    route: "/menus"
+  },
   {
     id: 3,
     label: "Menu Categories",
     icon: <CategoryIcon />,
     route: "/menu-categories",
   },
-  { id: 4, label: "Addons", icon: <LunchDiningIcon />, route: "/addons" },
+  {
+    id: 4,
+    label: "Addons",
+    icon: <LunchDiningIcon />,
+    route: "/addons"
+  },
   {
     id: 5,
     label: "Addon Categories",
@@ -59,10 +72,18 @@ const sidebarMenuItems = [
     icon: <LocationOnIcon />,
     route: "/locations",
   },
-  { id: 7, label: "Settings", icon: <SettingsIcon />, route: "/settings" },
+  {
+    id: 7,
+    label: "Settings",
+    icon: <SettingsIcon />,
+    route: "/settings"
+  },
 ];
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
+  
   const [open,setOpen] = useState(false)
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -141,10 +162,10 @@ const NavBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 ,textAlign:"center"}}>
             Foodie POS
           </Typography>
-          {auth && (
+          {/* {auth && (
             <div>
               <IconButton
                 size="large"
@@ -175,7 +196,45 @@ const NavBar = () => {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
             </div>
-          )}
+          )} */}
+
+          {accessToken ? <Typography
+            variant='h6'
+            component="div"
+            sx={{ cursor: "pointer", userSelect: "none" }}
+            onClick={() => {
+              localStorage.removeItem("accessToken");
+              navigate("/logout")
+            }}
+          >
+            Log Out
+          </Typography> : <Typography
+            variant='h6'
+            component="div"
+            sx={{ cursor: "pointer", userSelect: "none" }}
+            onClick={() => {
+              
+              navigate("/login")
+            }}
+          >
+              {/* Log in */}
+              {window.location.pathname === "/login" ? "" : "Log in"}
+          </Typography> 
+}
+
+{/* 
+          {accessToken && <Typography
+            variant='h6'
+            component="div"
+            sx={{ cursor: "pointer", userSelect: "none" }}
+            onClick={() => {
+              localStorage.removeItem("accessToken");
+              navigate("/logout")
+            }}
+          >
+            Log Out
+          </Typography>} */}
+
         </Toolbar>
       </AppBar>
        <Box>

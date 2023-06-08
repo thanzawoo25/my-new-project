@@ -8,16 +8,21 @@ import Login from './Components/Login';
 import Layout from './Components/Layout';
 
 function App() {
-  const accessToken = localStorage.getItem("accessToken:");
+  const accessToken = localStorage.getItem("accessToken");
   console.log("App Page:",accessToken)
 
-  // useEffect(() => {
-  //   fetchData()
-  // }, []);
-  // const fetchData =async() => {
-  //   const response = await fetch("http://localhost:5000/menus");
-  //   console.log(await response.json())
-  // }
+    useEffect(() => {
+      fetchData()
+    }, []);
+  
+    const fetchData =async() => {
+      const response = await fetch("http://localhost:5000/menus", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      console.log(await response.json())
+    }
   return (
     <Layout>
        <div className="App">

@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "./Layout";
@@ -22,7 +22,7 @@ const Login = () => {
             //console.log("accessToken",responseData)
 
             const accessToken = responseData.accessToken;
-            localStorage.setItem("accessToken:",accessToken)
+            localStorage.setItem("accessToken",accessToken)
 
             navigate("/")
         }
@@ -30,7 +30,7 @@ const Login = () => {
     }
     return (
         <Layout>
-            <Box sx={{display:"flex",flexDirection:"column",margin:"0 auto",maxWidth:"300px",alignItems:"center",mt:6}}>
+            <Box sx={{display:"flex",flexDirection:"column",margin:"0 auto",maxWidth:"400px",alignItems:"center",mt:6}}>
             
             <TextField 
             id="outlined-basic" 
@@ -50,8 +50,16 @@ const Login = () => {
             />
             
             <Button variant="contained" sx={{ mt: 2 }} onClick={login}>
-                Login
-            </Button>
+                Log in
+                </Button>
+                {/* <Box sx={{mt:4}}>
+                    <p style={{textDecoration:"none",marginRight:"5px",display:"inline"}}>Don't have an account?</p>
+                    <a href="/register" style={{textDecoration:"none",color:"blue"}}>Register here</a>
+                </Box> */}
+                <Typography variant="body1" sx={{mt:3}}>
+                    Don't have an account?
+                    <a style={{ textDecoration: "none", color: "blue" }} href="/register">Register here.</a>
+                </Typography>
         </Box>
         </Layout>
     )

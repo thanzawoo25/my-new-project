@@ -7,8 +7,9 @@ import { db } from "./src/db/db";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { config } from "./src/config/config";
+import { checkAuth } from "./src/utils/auth";
 
-console.log("config:",config.jwtSecret)
+console.log("config",config.jwtSecret)
 
 
 const app = express();
@@ -18,7 +19,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/menus", async(request, response) => {
+app.get("/menus",checkAuth, async(request, response) => {
     const menusResult = await db.query("select * from menus")
     response.send(menusResult.rows)
 })
