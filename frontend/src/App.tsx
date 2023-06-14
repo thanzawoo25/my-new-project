@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import NavBar from './Components/NavBar';
 import Register from './Components/Register';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useStepContext } from '@mui/material';
 import Login from './Components/Login';
 import Layout from './Components/Layout';
+import { AppContext } from './contexxt/AppContext';
 
 function App() {
+
+  const contextData = useContext(AppContext)
   const accessToken = localStorage.getItem("accessToken");
   console.log("App Page:",accessToken)
 
     useEffect(() => {
       fetchData()
+  console.log(contextData)
+
     }, []);
   
     const fetchData =async() => {
