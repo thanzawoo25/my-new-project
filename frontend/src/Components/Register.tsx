@@ -1,8 +1,10 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import Layout from "./Layout";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Register = () => {
+    const navigate = useNavigate()
     const [user, setUser] = useState({ name: "", email: "", password: "" })
     const register = async () => {
         //console.log("user",user)
@@ -13,7 +15,15 @@ const Register = () => {
             },
             body: JSON.stringify(user),
         });
-        console.log(await response.json())
+         console.log(await response.json())
+         if (response.ok) {
+        //     console.log(await response.json())
+             navigate("/login")
+            
+        // } else {
+        //     alert("Email already again")
+         }
+        
            
     }
     return (
@@ -21,7 +31,7 @@ const Register = () => {
             <p style={{textAlign:"center"}}>Please register.</p>
             <Box sx={{display:"flex",flexDirection:"column",maxWidth:"300px",alignItems:"center",margin:"0 auto",mt:6}}>
             <TextField 
-            id="outlined-basic" 
+             
             sx={{minWidth:"200px"}}
             label="Name" 
                 variant="outlined"
@@ -29,7 +39,7 @@ const Register = () => {
             />
             
             <TextField 
-            id="outlined-basic" 
+            
             label="Email" 
                 variant="outlined"
                 sx={{ my: 2, minWidth: "200px" }}
@@ -37,7 +47,7 @@ const Register = () => {
             />
             
             <TextField 
-            id="outlined-basic" 
+             
             sx={{minWidth:"200px"}}
                 label="Password" 
                 type="password"

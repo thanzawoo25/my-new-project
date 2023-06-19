@@ -33,7 +33,7 @@ const Login = () => {
             <Box sx={{display:"flex",flexDirection:"column",margin:"0 auto",maxWidth:"400px",alignItems:"center",mt:6}}>
             
             <TextField 
-            id="outlined-basic" 
+            
             label="Email" 
                 variant="outlined"
                 sx={{ my: 2, minWidth: "200px" }}
@@ -41,7 +41,7 @@ const Login = () => {
             />
             
             <TextField 
-            id="outlined-basic" 
+            
             sx={{minWidth:"200px"}}
                 label="Password" 
                 type="password"

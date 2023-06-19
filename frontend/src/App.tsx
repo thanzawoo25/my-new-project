@@ -12,16 +12,16 @@ function App() {
 
   const contextData = useContext(AppContext)
   const accessToken = localStorage.getItem("accessToken");
-  console.log("App Page:",accessToken)
+  //console.log("App Page:",accessToken)
 
     useEffect(() => {
       fetchData()
-  console.log(contextData)
+  //console.log(contextData)
 
     }, []);
   
     const fetchData =async() => {
-      const response = await fetch("http://localhost:5000/menus", {
+      const response = await fetch("http://localhost:5000/", {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -46,3 +46,6 @@ function App() {
 
 export default App;
 
+
+
+ 
