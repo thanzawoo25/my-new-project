@@ -41,7 +41,7 @@ const sidebarMenuItems = [
   { id: 1,
     label: "Orders",
     icon: <LocalMallIcon />,
-    route: "/orders"
+    route: "/"
   },
   { id: 2,
     label: "Menus",
@@ -80,13 +80,19 @@ const sidebarMenuItems = [
   },
 ];
 
-const NavBar = () => {
+interface props{
+  title?:string
+}
+
+const NavBar = ({title}:props) => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   
   const [open,setOpen] = useState(false)
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const navBarTitle = title ? `FOODIE-POS - ${title}` : "FOODIE-POS"
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAuth(event.target.checked);
@@ -163,40 +169,8 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 ,textAlign:"center"}}>
-            Foodie POS
+            {navBarTitle}
           </Typography>
-          {/* {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )} */}
 
           {accessToken ? <Typography
             variant='h6'

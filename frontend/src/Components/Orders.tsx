@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 import NavBar from "./NavBar";
+import Layout from "./Layout";
 
 const Orders = () => {
     return (
-        <Box>
-            <NavBar/>
+        <Layout>
+            {/* <NavBar/> */}
             <h1>Orders Component</h1>
-        </Box>
+        </Layout>
     )
  
 }

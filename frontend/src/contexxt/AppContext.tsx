@@ -43,8 +43,8 @@ const AppProvider = (props:any) => {
     const [data, updateData] = useState(defaltContext);
     const accessToken = localStorage.getItem("accessToken");
 
-    console.log("accessToken", accessToken);
-    console.log("Data", data)
+    //console.log("accessToken", accessToken);
+    //console.log("Data", data)
     
     useEffect(() => {
         if (accessToken) {
@@ -53,7 +53,7 @@ const AppProvider = (props:any) => {
     }, [accessToken])
     
     const fetchData =async () => {
-        console.log(config)
+        //console.log(config)
 
         const response = await fetch(`${config.apiBaseUrl}`, {
             headers: {

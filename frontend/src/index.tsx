@@ -11,7 +11,7 @@ import MenuCategories from './Components/MenuCategories';
 import Settings from './Components/Settings';
 import Locations from './Components/Locations';
 import Addons from './Components/Addons';
-import AddonsCategories from './Components/AddonsCategories';
+import AddonCategories from './Components/AddonCategories';
 import Logout from './Components/Logout';
 import AppProvider from './contexxt/AppContext';
 
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/addon-categories",
-    element:<AddonsCategories/>
+    element:<AddonCategories/>
   },
   {
     path: "/locations",
