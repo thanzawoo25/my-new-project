@@ -195,20 +195,6 @@ const NavBar = ({title}:props) => {
               {window.location.pathname === "/login" ? "" : "Log in"}
           </Typography> 
 }
-
-{/* 
-          {accessToken && <Typography
-            variant='h6'
-            component="div"
-            sx={{ cursor: "pointer", userSelect: "none" }}
-            onClick={() => {
-              localStorage.removeItem("accessToken");
-              navigate("/logout")
-            }}
-          >
-            Log Out
-          </Typography>} */}
-
         </Toolbar>
       </AppBar>
        <Box>

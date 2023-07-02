@@ -13,7 +13,8 @@ import menusRouter from "./src/routers/menusRouter";
 import appRouter from "./src/routers/appRouter";
 import LocationsRouter from "./src/routers/locationsRouter";
 
-console.log("config",config.jwtSecret)
+console.log("config", config)
+
 
 
 const app = express();

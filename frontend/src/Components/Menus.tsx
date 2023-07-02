@@ -2,7 +2,7 @@ import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from "@
 import NavBar from "./NavBar";
 import Layout from "./Layout";
 import { useContext } from "react";
-import { AppContext } from "../contexxt/AppContext";
+import { AppContext } from "../Context/AppContext";
 
 const Menus = () => {
 
@@ -11,10 +11,10 @@ const Menus = () => {
     const sampleMenuImageUrl =
     "https://msquarefdc.sgp1.cdn.digitaloceanspaces.com/Spicy%20seasoned%20seafood%20noodles.png";
     return (
+      <Box sx={{backgroundColor:"#454545"}}>
         <Layout title="Menus">
-            {/* <NavBar/> */}
-            <h1>Menus Component</h1>
-            <Box sx={{ml:3,mt:5,display:"flex"}}>
+        {/* <NavBar/> */}
+        <Box sx={{ml:3,mt:5,display:"flex"}}>
             {menus.map(menu => {
                 return (
                     <Card key={menu.id} sx={{ maxWidth: 345,mr:2 }}>
@@ -38,7 +38,9 @@ const Menus = () => {
                 )
             })}
                 </Box>
+          
         </Layout>
+        </Box>
     )
  
 }

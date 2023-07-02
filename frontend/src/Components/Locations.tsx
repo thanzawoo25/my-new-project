@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import NavBar from "./NavBar";
 import Layout from "./Layout";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../contexxt/AppContext";
+import { AppContext } from "../Context/AppContext";
 import { config } from "../Config/config";
 
 const Locations = () => {
@@ -12,16 +12,31 @@ const Locations = () => {
         address: "",
         companyId:company?.id,
     })
+    const [updateLocation,setUpdateLocation]=useState({name:"",address:""})
 
     const accessToken = localStorage.getItem("accessToken");
 
     useEffect(() => {
         company?.id && setNewLocation({ ...newLocation, companyId: company.id });
-    }, [company])
+    }, [company]);
     
     // useEffect(() => {
     //     setNewLocation({ ...newLocation, companyId: company?.id });
     // },[company])
+    // const updateLocationFunction = async(location:any) => {
+    //     console.log("Location",locations)
+    //     const locationId = location.id
+    //     await fetch(`${config.apiBaseUrl}/locations/${locationId}`, {
+    //         method: "PUT",
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`,
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify(updateLocation)
+    //     });
+    //     fetchData()
+    //     setUpdateLocation({name:"",address:""})
+    // }
 
     const createNewLocation = async () => {
         console.log(newLocation)
@@ -36,11 +51,12 @@ const Locations = () => {
         fetchData()
         setNewLocation({name:"",address:"",companyId:company?.id})
     }
+
    
     return (
         <Layout title="Locations">
             {/* <NavBar/> */}
-            <Box sx={{ mt: 5, ml: 3 }}>
+            <Box sx={{ mt: 5,display:"flex",flexDirection:"column",alignItems:"center"}}>
             {locations.map((location,index) => {
                 return (
                     <Box key={location.id} sx={{ display: "flex", alignItems: "center", mb:3 }}>
@@ -50,8 +66,11 @@ const Locations = () => {
                         
                         <TextField defaultValue={location.name} sx={{mr:3}}/>
                         <TextField defaultValue={location.address} sx={{mr:3}} />
-                        <Button variant="contained">
+                        <Button variant="contained" sx={{mr:3}}>
                             Update  
+                        </Button>
+                        <Button variant="contained" color="error" >
+                            Delete  
                         </Button>
                     </Box>
                 )

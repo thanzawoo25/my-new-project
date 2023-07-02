@@ -5,9 +5,28 @@ import { db } from "../db/db";
 
 const LocationsRouter = express.Router();
 
-// LocationsRouter.put ("/",checkAuth, async(request, response) => {
-//     const menusResult = await db.query("select * from menus")
-//     response.send(menusResult.rows)
+// LocationsRouter.put ("/:locationId",checkAuth, async(request, response) => {
+//     const locationId = request.params.locationId;
+//     const { name, address } = request.body;
+//     if (name && !address) {
+//         const updateLocation = await db.query(
+//             "update locations set name= $1 where id = $3",
+//             [name,locationId]
+//         )
+//     } else if (address && !name) {
+//         const updateLocation = await db.query(
+//             "update locations set address=$2 where id = $3 ",
+//             [address,locationId]
+//         )
+//     } else {
+//         const updateLocation = await db.query(
+//         "update locations set name =$1,address=$2 where id=$3",
+//         [name,address,locationId]
+//         )
+//         response.sendStatus(400)
+//     }
+    
+//     response.send({message:"Update....."})
 // })
 
 LocationsRouter.post("/", checkAuth, async (request:Request, response:Response) => {
