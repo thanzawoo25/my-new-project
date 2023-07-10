@@ -1,17 +1,14 @@
-
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 dotenv.config();
 
-import express, { Request, Response } from "express"
+import express, { Request, Response } from "express";
 import { db } from "../db/db";
 import { checkAuth } from "../utils/auth";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import { config } from "../config/config";
 
-
-const authRouter = express.Router()
-
+const authRouter = express.Router();
 
 authRouter.post("/register", async (req: Request, res: Response) => {
   // console.log(req.body)
@@ -53,15 +50,6 @@ authRouter.post("/register", async (req: Request, res: Response) => {
     const defaultMenuId2 = menus[1].id;
     // console.log("Menus: ", menus);
 
-    const menuLocationResults = await db.query(
-      "insert into menus_locations (menus_id, locations_id) select * from unnest ($1::int[],$2::int[]) returning *",
-      [
-        [defaultMenuId1, defaultMenuId2],
-        [locationId, locationId],
-      ]
-    );
-    // console.log("menuLocationResults: ...", menuLocationResults.rows);
-
     const menuCategoriesResult = await db.query(
       "insert into menu_categories (name) values ('defaultMenuCagegory1'),('defaultMenuCagegory2') returning * "
     );
@@ -72,19 +60,15 @@ authRouter.post("/register", async (req: Request, res: Response) => {
     // console.log("DefaultMenuCategories: ", defaultMenuCagegories);
 
     await db.query(
-      `insert into menus_menu_categories (menus_id,menu_categories_id) values (${defaultMenuId1},${defaultMenuCategoryId1}),(${defaultMenuId2},${defaultMenuCategoryId2}) `
+      `insert into menus_menu_categories_locations (menus_id,menu_categories_id,locations_id) values (${defaultMenuId1},${defaultMenuCategoryId1},${locationId}),(${defaultMenuId2},${defaultMenuCategoryId2},${locationId}) `
     );
 
     const defaultAddonCategoriesResult = await db.query(
-      "insert into addon_categories (name,is_required) values ('Drinks',true),('Sizes',true) returning *"
+      "insert into addon_categories (name,is_required) values ('Drinks',false),('Sizes',false) returning *"
     );
     const addonCategoriesIds = defaultAddonCategoriesResult.rows;
     const defaultAddonCategoryId1 = addonCategoriesIds[0].id;
     const defaultAddonCategoryId2 = addonCategoriesIds[1].id;
-    // console.log(
-    //   "DefalultAddonCategoryResults: ",
-    //   defaultAddonCategoriesResult.rows
-    // );
 
     await db.query(
       "insert into menus_addon_categories (menus_id, addon_categories_id) select * from unnest ($1::int[], $2::int[])",
@@ -116,25 +100,25 @@ authRouter.post("/register", async (req: Request, res: Response) => {
 });
 
 authRouter.post("/login", async (request, response) => {
-    //console.log(request.body)
-    const {  email, password } = request.body;
-     
-    if (!email || !password) return response.sendStatus(401);
-    const userResult = await db.query("select * from users where email = $1", [email]);
-    if(!userResult.rows.length) return response.sendStatus(401)
-    const user = userResult.rows[0];
-    const hashPassword = user.password;
-    const isCorrectPassword = await bcrypt.compare(password, hashPassword);
+  //console.log(request.body)
+  const { email, password } = request.body;
 
-    if (isCorrectPassword) {
-        //console.log(config.jwtSecret)
-        const accessToken = jwt.sign(user, config.jwtSecret)
-        return response.send({accessToken})
-    }
-    //return isCorrectPassword ? response.sendStatus(200) :response.sendStatus(401)
-    return response.sendStatus(401)
+  if (!email || !password) return response.sendStatus(401);
+  const userResult = await db.query("select * from users where email = $1", [
+    email,
+  ]);
+  if (!userResult.rows.length) return response.sendStatus(401);
+  const user = userResult.rows[0];
+  const hashPassword = user.password;
+  const isCorrectPassword = await bcrypt.compare(password, hashPassword);
 
-})
- 
+  if (isCorrectPassword) {
+    //console.log(config.jwtSecret)
+    const accessToken = jwt.sign(user, config.jwtSecret);
+    return response.send({ accessToken });
+  }
+  //return isCorrectPassword ? response.sendStatus(200) :response.sendStatus(401)
+  return response.sendStatus(401);
+});
+
 export default authRouter;
-

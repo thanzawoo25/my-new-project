@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import Locations from "../Components/Locations";
 import CreateMenu from "../Components/CreateMenu";
 import { Autocomplete } from "@mui/material";
+import Tables from "../Components/Tables";
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/create-menu" Component={CreateMenu} />
           <Route path="/addons" Component={Addons} />
           <Route path="/addon-categories" Component={AddonCategories} />
+          <Route path="/tables" Component={Tables} />
           <Route path="/locations" Component={Locations} />
           <Route path="/settings" Component={Settings} />
         </Route>

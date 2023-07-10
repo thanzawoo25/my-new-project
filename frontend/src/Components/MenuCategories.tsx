@@ -9,6 +9,7 @@ const MenuCategories = () => {
     { id: 60, name: "a tote sone" },
     { id: 61, name: "mote lat saung" },
     { id: 62, name: "shwe yin aye" },
+    { id: 63, name: "tamato salad" },
   ];
   return (
     <Layout title="Menu Categories">
