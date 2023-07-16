@@ -5,10 +5,11 @@ import {
   MenuCategory,
   Addon,
   AddonCategory,
-  MenuLocation,
   Company,
   Location,
   Tables,
+  MenusMenuCategoriesLocations,
+  MenusAddonCategory,
 } from "../typings/types";
 
 import { config } from "../Config/config";
@@ -19,7 +20,8 @@ interface AppContextType {
   addons: Addon[];
   addonCategories: AddonCategory[];
   locations: Location[];
-  menusMenuCategoriesLocations: MenuLocation[];
+  menusAddonCategories: MenusAddonCategory[];
+  menusMenuCategoriesLocations: MenusMenuCategoriesLocations[];
   company: Company | null;
   tables: Tables[];
   updateData: (value: any) => void;
@@ -32,6 +34,7 @@ export const defaltContext: AppContextType = {
   addons: [],
   addonCategories: [],
   locations: [],
+  menusAddonCategories: [],
   menusMenuCategoriesLocations: [],
   company: null,
   tables: [],
@@ -72,6 +75,7 @@ const AppProvider = (props: any) => {
       addons,
       addonCategories,
       locations,
+      menusAddonCategories,
       menusMenuCategoriesLocations,
       company,
       tables,
@@ -84,6 +88,7 @@ const AppProvider = (props: any) => {
       addons,
       addonCategories,
       locations,
+      menusAddonCategories,
       menusMenuCategoriesLocations,
       company,
       tables,

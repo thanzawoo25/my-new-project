@@ -4,11 +4,13 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Paper,
   TextField,
+  Typography,
 } from "@mui/material";
 import Layout from "./Layout";
 import { useState, useContext } from "react";
-import { getAccessToken, getSelectedLocationId } from "../Utils/general";
+import { getAccessToken, getSelectedLocationId } from "../Utils";
 import { config } from "../Config/config";
 import { AppContext } from "../Context/AppContext";
 import { table } from "console";
@@ -22,7 +24,7 @@ const Tables = () => {
   const isValidTable = tables.filter(
     (item) => item.locations_id === Number(selectedLocationId)
   );
-  console.log("isValidTables", isValidTable);
+  //console.log("isValidTables", isValidTable);
 
   const createNewTable = async () => {
     console.log(newTable);
@@ -38,7 +40,7 @@ const Tables = () => {
     fetchData();
     setOpen(false);
   };
-  console.log("all tables", tables);
+  //console.log("all tables", tables);
   return (
     <Layout title="Tables">
       <Box sx={{ px: 3, pt: 3 }}>
@@ -61,23 +63,36 @@ const Tables = () => {
               <Box
                 key={table.name}
                 sx={{
-                  boxShadow: 4,
-                  width: "10rem",
-                  height: "6rem",
-                  bgcolor: (theme) =>
-                    theme.palette.mode === "dark" ? "#101010" : "#fff",
-                  color: (theme) =>
-                    theme.palette.mode === "dark" ? "grey.300" : "grey.800",
-                  p: 2,
-                  m: 2,
-                  borderRadius: 2,
-                  textAlign: "center",
-                  fontSize: "1.5rem",
-                  fontWeight: "700",
+                  border: "2px solid lightgrey",
+                  width: 100,
+                  height: 150,
+                  mr: 5,
+                  mb: 3,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
                 }}
               >
                 {table.name}
               </Box>
+              // <Paper
+              //   elevation={2}
+              //   sx={{
+              //     width: 170,
+              //     height: 170,
+              //     mr: 4,
+              //     mb: 5,
+              //     display: "flex",
+              //     flexDirection: "column",
+              //     justifyContent: "flex-end",
+              //     pl: 2,
+              //     pb: 2,
+              //   }}
+              // >
+              //   <Typography sx={{ color: "#4C4C6D", fontWeight: "700" }}>
+              //     {table.name}
+              //   </Typography>
+              // </Paper>
             );
           })}
           <Dialog open={open} onClose={() => setOpen(false)}>

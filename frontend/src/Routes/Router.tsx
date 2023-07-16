@@ -13,6 +13,7 @@ import Locations from "../Components/Locations";
 import CreateMenu from "../Components/CreateMenu";
 import { Autocomplete } from "@mui/material";
 import Tables from "../Components/Tables";
+import EditMenuCategories from "../Components/EditMenuCategories";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
           <Route path="/" Component={App} />
           <Route path="/menus" Component={Menus} />
           <Route path="/menu-categories" Component={MenuCategories} />
+          {/* <Route path="/menu-categories/:id" Component={EditMenuCategories} /> */}
           <Route path="/create-menu" Component={CreateMenu} />
           <Route path="/addons" Component={Addons} />
           <Route path="/addon-categories" Component={AddonCategories} />

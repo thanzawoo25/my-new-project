@@ -10,10 +10,16 @@ import NavBar from "./NavBar";
 import Layout from "./Layout";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
+import { getMenusByLocationId } from "../Utils";
 
 const Menus = () => {
-  const { menus } = useContext(AppContext);
+  const { menus, menusMenuCategoriesLocations } = useContext(AppContext);
   console.log("MENU...", menus);
+
+  const isValidMenus = getMenusByLocationId(
+    menus,
+    menusMenuCategoriesLocations
+  );
   const sampleMenuImageUrl =
     "https://msquarefdc.sgp1.cdn.digitaloceanspaces.com/Spicy%20seasoned%20seafood%20noodles.png";
   return (

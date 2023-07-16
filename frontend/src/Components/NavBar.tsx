@@ -36,24 +36,26 @@ import { Link, useNavigate } from "react-router-dom";
 
 const sidebarMenuItems = [
   { id: 1, label: "Orders", icon: <LocalMallIcon />, route: "/" },
-  { id: 2, label: "Menus", icon: <LocalDiningIcon />, route: "/menus" },
   {
     id: 3,
     label: "Menu Categories",
     icon: <CategoryIcon />,
     route: "/menu-categories",
   },
-  {
-    id: 4,
-    label: "Addons",
-    icon: <LunchDiningIcon />,
-    route: "/addons",
-  },
+
+  { id: 2, label: "Menus", icon: <LocalDiningIcon />, route: "/menus" },
+
   {
     id: 5,
     label: "Addon Categories",
     icon: <ClassIcon />,
     route: "/addon-categories",
+  },
+  {
+    id: 4,
+    label: "Addons",
+    icon: <LunchDiningIcon />,
+    route: "/addons",
   },
   {
     id: 6,
