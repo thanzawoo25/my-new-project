@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import NavBar from "./NavBar";
 import Layout from "./Layout";
-import Autocomplete from "./Autocomplete";
+import Autocomplete from "./AutocompleteCustom";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import {

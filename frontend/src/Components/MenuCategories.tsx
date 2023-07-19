@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import NavBar from "./NavBar";
 import Layout from "./Layout";
-import Autocomplete from "./Autocomplete";
+import Autocomplete from "./AutocompleteCustom";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import { getMenuCategoriesByLocationIds } from "../Utils";
 import { Link } from "react-router-dom";
+import { relative } from "path";
 
 const MenuCategories = () => {
   const { menuCategories, menusMenuCategoriesLocations } =
@@ -21,7 +22,11 @@ const MenuCategories = () => {
       <Box sx={{ pl: 3, pt: 5, display: "flex" }}>
         {validMenuCategories.map((item) => {
           return (
-            <Link to={`${item.id}`} key={item.id}>
+            <Link
+              to={`${item.id}`}
+              key={item.id}
+              style={{ textDecoration: "none" }}
+            >
               <Box
                 sx={{
                   height: 150,
@@ -31,6 +36,8 @@ const MenuCategories = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   mr: 3,
+                  borderRadius: 2,
+                  borderBlock: "2px solid black",
                 }}
               >
                 <Typography>{item.name}</Typography>

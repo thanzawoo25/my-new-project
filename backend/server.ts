@@ -13,6 +13,7 @@ import menusRouter from "./src/routers/menusRouter";
 import appRouter from "./src/routers/appRouter";
 import LocationsRouter from "./src/routers/locationsRouter";
 import tablesRouter from "./src/routers/tablesRouter";
+import menuCategoriesRouter from "./src/routers/menuCategoriesRouter";
 
 console.log("config", config);
 
@@ -24,6 +25,7 @@ app.use(express.json());
 
 app.use("/", appRouter);
 app.use("/menus", menusRouter);
+app.use("/menu-categories", menuCategoriesRouter);
 app.use("/auth", authRouter);
 app.use("/locations", LocationsRouter);
 app.use("/tables", tablesRouter);

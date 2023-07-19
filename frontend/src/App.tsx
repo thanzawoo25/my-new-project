@@ -56,7 +56,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Layout from "./Components/Layout";
-import Autocomplete from "./Components/Autocomplete";
+import Autocomplete from "./Components/AutocompleteCustom";
 
 function createData(
   name: string,

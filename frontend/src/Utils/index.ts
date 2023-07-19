@@ -1,6 +1,7 @@
 import {
   Addon,
   AddonCategory,
+  Location,
   Menu,
   MenuCategory,
   MenusAddonCategory,
@@ -67,4 +68,15 @@ export const getAddonsByLocationIds = (
   return addons.filter((item) =>
     validAddonCategoiryIds.includes(item.addon_categories_id)
   );
+};
+
+export const getLocationByMenuCategoryId = (
+  location: Location[],
+  menuCategoryId: string,
+  menusMenuCategoriesLocations: MenusMenuCategoriesLocations[]
+) => {
+  const validLocationId = menusMenuCategoriesLocations
+    .filter((item) => item.menu_categories_id === Number(menuCategoryId))
+    .map((item) => item.locations_id);
+  return location.filter((item) => validLocationId.includes(item.id as number));
 };
