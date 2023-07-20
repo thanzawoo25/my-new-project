@@ -27,6 +27,8 @@ appRouter.get("/", checkAuth, async (request: Request, response: Response) => {
 
     //get location rows and ids
 
+    // git merge test
+
     const locations = await db.query(
       "select * from locations where companies_id =$1",
       [companyId]
