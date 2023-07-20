@@ -5,7 +5,6 @@ import { config } from "../config/config";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { fileUpload } from "../utils/fileUpload";
-import { send } from "process";
 
 const appRouter = express.Router();
 
