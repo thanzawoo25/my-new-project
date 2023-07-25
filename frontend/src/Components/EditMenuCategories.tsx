@@ -3,17 +3,22 @@ import Layout from "./Layout";
 import { useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
-import { getAccessToken, getLocationByMenuCategoryId } from "../Utils";
+import {
+  getAccessToken,
+  getLocationByMenuCategoryId,
+  getMenusByMenuCategoryIds,
+} from "../Utils";
 import Autocomplete from "./Autocomplete";
 import { config } from "../Config/config";
+import MenusCard from "./MenusCard";
 
 const EditMenuCategories = () => {
-  const { menuCategories, locations, menusMenuCategoriesLocations } =
+  const { menuCategories, menus, locations, menusMenuCategoriesLocations } =
     useContext(AppContext);
-  console.log("menuCategories", menuCategories);
+  //console.log("menuCategories", menuCategories);
 
   const params = useParams();
-  console.log("params", params);
+  //console.log("params", params);
   const menuCategoryId = params.id as string;
   const [newMenuCategory, setNewMenuCategory] = useState({
     id: menuCategoryId,
@@ -21,7 +26,7 @@ const EditMenuCategories = () => {
     locationIds: [] as number[],
   });
   if (!menuCategoryId) return null; // null / react fregment
-  console.log("menuCategoryId", menuCategoryId);
+  //console.log("menuCategoryId", menuCategoryId);
   const accessToken = getAccessToken();
 
   const menuCategory = menuCategories.find(
@@ -36,29 +41,30 @@ const EditMenuCategories = () => {
       </Layout>
     );
 
+  const validMenus = getMenusByMenuCategoryIds(
+    menus,
+    menuCategoryId,
+    menusMenuCategoriesLocations
+  );
+  console.log("validMenus", validMenus);
+
   const validLocations = getLocationByMenuCategoryId(
     locations,
     menuCategoryId,
     menusMenuCategoriesLocations
   );
-  console.log("locations", locations);
-  console.log("validLocation", validLocations);
+  //console.log("locations", locations);
+  //console.log("validLocation", validLocations);
 
   const mappedLocations = locations.map((item) => ({
     id: item.id as number,
     name: item.name,
   }));
 
-  const mappedValidLocation = validLocations
-    .map((item) => ({
-      id: item.id as number,
-      name: item.name,
-    }))
-    .filter((item) => {
-      const validLocationIds = mappedLocations.map((item) => item.id as number);
-      return !validLocationIds.includes(item.id);
-    });
-
+  const mappedValidLocations = validLocations.map((item) => ({
+    id: item.id as number,
+    name: item.name,
+  }));
   const updateMenuCategory = async () => {
     console.log("newMenuCategory", newMenuCategory);
     await fetch(`${config.apiBaseUrl}/menu-categories`, {
@@ -76,10 +82,7 @@ const EditMenuCategories = () => {
       <Box
         sx={{
           p: 5,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          width: 500,
         }}
       >
         <TextField
@@ -90,7 +93,7 @@ const EditMenuCategories = () => {
         />
         <Autocomplete
           options={mappedLocations}
-          defaultValue={mappedValidLocation}
+          defaultValue={mappedValidLocations}
           label="Locations"
           placeholder="Locations"
           onChange={(option) =>
@@ -103,6 +106,15 @@ const EditMenuCategories = () => {
         <Button variant="contained" onClick={updateMenuCategory} sx={{ mt: 3 }}>
           Update
         </Button>
+        <Box sx={{ mt: 4 }}>
+          {validMenus.map((item) => {
+            return (
+              <Box key={item.id} sx={{ mt: 3 }}>
+                <MenusCard menu={item} />
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
     </Layout>
   );

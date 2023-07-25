@@ -28,7 +28,6 @@ export const getMenuCategoriesByLocationIds = (
     validMenuCategoryIds.includes(item.id as number)
   );
 };
-
 export const getMenusByLocationId = (
   menus: Menu[],
   menusMenuCategoriesLocations: MenusMenuCategoriesLocations[]
@@ -37,6 +36,24 @@ export const getMenusByLocationId = (
   const validMenuIds = menusMenuCategoriesLocations
     .filter((item) => item.locations_id === Number(selectedLocationId))
     .map((item) => item.menus_id);
+  return menus.filter((item) => validMenuIds.includes(item.id as number));
+};
+
+export const getMenusByMenuCategoryIds = (
+  menus: Menu[],
+  menuCategoryId: string,
+  menusMenuCategoriesLocations: MenusMenuCategoriesLocations[]
+) => {
+  const selectedLocationId = getSelectedLocationId();
+  const validMenuIds = menusMenuCategoriesLocations
+    .filter(
+      (item) =>
+        item.menus_id &&
+        item.menu_categories_id === Number(menuCategoryId) &&
+        item.locations_id === Number(selectedLocationId)
+    )
+    .map((item) => item.menus_id);
+  console.log("validMenuIds", validMenuIds);
   return menus.filter((item) => validMenuIds.includes(item.id as number));
 };
 
