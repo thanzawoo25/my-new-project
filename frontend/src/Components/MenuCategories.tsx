@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import { getMenuCategoriesByLocationIds } from "../Utils";
 import { Link } from "react-router-dom";
-import { relative } from "path";
 
 const MenuCategories = () => {
   const { menuCategories, menusMenuCategoriesLocations } =
