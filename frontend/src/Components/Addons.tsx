@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import NavBar from "./NavBar";
 import Layout from "./Layout";
 import Autocomplete from "./AutocompleteCustom";
@@ -32,13 +32,16 @@ const Addons = () => {
             <Box
               key={item.id}
               sx={{
-                height: 150,
-                width: 100,
+                height: 120,
+                width: 90,
                 border: "2px solid lightgrey",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 mr: 3,
+                borderRadius: "10px",
+                borderWidth: 3,
+                borderBlockColor: "black",
               }}
             >
               <Typography>{item.name}</Typography>
