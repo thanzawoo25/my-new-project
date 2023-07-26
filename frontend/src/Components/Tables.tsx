@@ -70,7 +70,8 @@ const Tables = () => {
                   mb: 3,
                   display: "flex",
                   flexWrap: "wrap",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 {table.name}

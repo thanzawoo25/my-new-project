@@ -106,10 +106,10 @@ const EditMenuCategories = () => {
         <Button variant="contained" onClick={updateMenuCategory} sx={{ mt: 3 }}>
           Update
         </Button>
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 4, display: "flex" }}>
           {validMenus.map((item) => {
             return (
-              <Box key={item.id} sx={{ mt: 3 }}>
+              <Box key={item.id} sx={{ mt: 3, mr: 3, mb: 3 }}>
                 <MenusCard menu={item} />
               </Box>
             );

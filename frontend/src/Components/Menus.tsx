@@ -63,6 +63,9 @@ const Menus = () => {
                       <Typography gutterBottom variant="h5" component="div">
                         {menu.name}
                       </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {menu.price}
+                      </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the
