@@ -25,8 +25,7 @@ const Menus = () => {
   );
 
   const [open, setOpen] = useState(false);
-  const sampleMenuImageUrl =
-    "https://msquarefdc.sgp1.cdn.digitaloceanspaces.com/Spicy%20seasoned%20seafood%20noodles.png";
+
   return (
     <Box>
       <Layout title="Menus">
@@ -56,7 +55,7 @@ const Menus = () => {
                     <CardMedia
                       component="img"
                       height="140"
-                      image={sampleMenuImageUrl}
+                      image={menu.asset_url}
                       alt="green iguana"
                     />
                     <CardContent>

@@ -10,9 +10,9 @@ import Logout from "../Components/Logout";
 import Register from "../Components/Register";
 import PrivateRoute from "./PrivateRoute";
 import Locations from "../Components/Locations";
-import { Autocomplete } from "@mui/material";
 import Tables from "../Components/Tables";
 import EditMenuCategories from "../Components/EditMenuCategories";
+import EditAddons from "../Components/EditAddons";
 
 const Router = () => {
   return (
@@ -24,6 +24,7 @@ const Router = () => {
           <Route path="/menu-categories" Component={MenuCategories} />
           <Route path="/menu-categories/:id" Component={EditMenuCategories} />
           <Route path="/addons" Component={Addons} />
+          <Route path="/addons/:id" Component={EditAddons} />
           <Route path="/addon-categories" Component={AddonCategories} />
           <Route path="/tables" Component={Tables} />
           <Route path="/locations" Component={Locations} />

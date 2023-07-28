@@ -1,13 +1,12 @@
-import { Box, Button, Typography } from "@mui/material";
-import NavBar from "./NavBar";
+import { Box, Paper, Typography } from "@mui/material";
 import Layout from "./Layout";
-import Autocomplete from "./AutocompleteCustom";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import {
   getAddonCategoriesByLocationId,
   getAddonsByLocationIds,
 } from "../Utils";
+import { Link } from "react-router-dom";
 
 const Addons = () => {
   const {
@@ -25,27 +24,38 @@ const Addons = () => {
   const validAddons = getAddonsByLocationIds(addons, validAddonCategories);
 
   return (
-    <Layout title="Menu Categories">
+    <Layout title="Addons">
       <Box sx={{ pl: 3, pt: 5, display: "flex" }}>
         {validAddons.map((item) => {
           return (
-            <Box
+            <Link
               key={item.id}
-              sx={{
-                height: 120,
-                width: 90,
-                border: "2px solid lightgrey",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                mr: 3,
-                borderRadius: "10px",
-                borderWidth: 3,
-                borderBlockColor: "black",
-              }}
+              to={`/addons/${item.id}`}
+              style={{ textDecoration: "none", color: "#000000" }}
             >
-              <Typography>{item.name}</Typography>
-            </Box>
+              <Paper
+                elevation={2}
+                sx={{
+                  height: 170,
+                  width: 170,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mr: 3,
+                  mb: 3,
+                  pb: 3,
+                  pl: 3,
+                }}
+              >
+                <Typography sx={{ color: "black", fontWeight: 700 }}>
+                  {item.name}
+                </Typography>
+                <Typography sx={{ color: "black", fontsize: 15 }}>
+                  {item.price}
+                </Typography>
+              </Paper>
+            </Link>
           );
         })}
       </Box>
