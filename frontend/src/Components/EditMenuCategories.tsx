@@ -19,6 +19,7 @@ const EditMenuCategories = () => {
 
   const params = useParams();
   //console.log("params", params);
+  const [open, setOpen] = useState(false);
   const menuCategoryId = params.id as string;
   const [newMenuCategory, setNewMenuCategory] = useState({
     id: menuCategoryId,
@@ -65,6 +66,7 @@ const EditMenuCategories = () => {
     id: item.id as number,
     name: item.name,
   }));
+
   const updateMenuCategory = async () => {
     console.log("newMenuCategory", newMenuCategory);
     await fetch(`${config.apiBaseUrl}/menu-categories`, {
@@ -109,8 +111,26 @@ const EditMenuCategories = () => {
         <Box sx={{ mt: 4, display: "flex" }}>
           {validMenus.map((item) => {
             return (
-              <Box key={item.id} sx={{ mt: 3, mr: 3, mb: 3 }}>
+              <Box
+                key={item.id}
+                sx={{
+                  mt: 3,
+                  mr: 3,
+                  mb: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 <MenusCard menu={item} />
+                <Button
+                  color="error"
+                  variant="contained"
+                  sx={{ mt: 2, width: "fit-content" }}
+                  onClick={() => setOpen(true)}
+                >
+                  Removed
+                </Button>
               </Box>
             );
           })}
