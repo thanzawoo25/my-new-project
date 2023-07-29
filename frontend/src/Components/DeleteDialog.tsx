@@ -15,7 +15,7 @@ interface Props {
 }
 const DeleteDialog = ({ title, open, setOpen, callback }: Props) => {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Typography>This action cannot be undone.</Typography>

@@ -11,6 +11,7 @@ import {
 import Autocomplete from "./Autocomplete";
 import { config } from "../Config/config";
 import MenusCard from "./MenusCard";
+import DeleteDialog from "./DeleteDialog";
 
 const EditMenuCategories = () => {
   const { menuCategories, menus, locations, menusMenuCategoriesLocations } =
@@ -79,6 +80,10 @@ const EditMenuCategories = () => {
     });
   };
 
+  const handleRemovedMenusFromMenuCategories = () => {
+    console.log("hello");
+  };
+
   return (
     <Layout title="Edit Menu Categories">
       <Box
@@ -136,6 +141,12 @@ const EditMenuCategories = () => {
           })}
         </Box>
       </Box>
+      <DeleteDialog
+        title={"Are you sure you want to remove menu from menuCategories."}
+        open={open}
+        setOpen={setOpen}
+        callback={handleRemovedMenusFromMenuCategories}
+      />
     </Layout>
   );
 };
