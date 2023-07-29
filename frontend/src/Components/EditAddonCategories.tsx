@@ -1,41 +1,36 @@
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+} from "@mui/material";
 import Layout from "./Layout";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import { getAccessToken } from "../Utils";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Addon } from "../typings/types";
+import { Addon, AddonCategory } from "../typings/types";
 import { config } from "../Config/config";
 import DeleteDialog from "./DeleteDialog";
+import AddonCategories from "./AddonCategories";
 
-const EditAddons = () => {
+const EditAddonCategories = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const addonId = params.id as string;
-  const { addons, fetchData } = useContext(AppContext);
+  const addonCategoryId = params.id as string;
+  const { addonCategories, fetchData } = useContext(AppContext);
   const accessToken = getAccessToken();
 
   const [open, setOpen] = useState(false);
-  const [addon, setAddon] = useState<Addon>();
+  const [addonCategory, setAddonCategory] = useState<AddonCategory>();
 
-  const updateAddon = async () => {
-    if (!addon?.name) return;
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(addon),
-    });
-    fetchData();
-    navigate("/addons");
-    navigate("/addons");
+  const updateAddonCategory = () => {
+    console.log("updateAddonCategories");
   };
-
-  const handleDeleteButton = async () => {
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
+  const handleDeleteAddonCategory = async () => {
+    await fetch(`${config.apiBaseUrl}/addon-categories/${addonCategoryId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -43,16 +38,19 @@ const EditAddons = () => {
     });
     accessToken && fetchData();
     setOpen(false);
-    navigate("/addons");
+    navigate("/addon-categories");
   };
-  useEffect(() => {
-    if (addons.length) {
-      const validAddon = addons.find((item) => item.id === Number(addonId));
-      setAddon(validAddon);
-    }
-  }, [addons]);
 
-  if (!addon) return null;
+  useEffect(() => {
+    if (addonCategories.length) {
+      const validAddonCategories = addonCategories.find(
+        (item) => item.id === Number(addonCategoryId)
+      );
+      setAddonCategory(validAddonCategories);
+    }
+  }, [addonCategories]);
+
+  if (!addonCategory) return null;
 
   return (
     <Layout title="Edit Addon Categories">
@@ -70,22 +68,31 @@ const EditAddons = () => {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
             sx={{ mb: 3 }}
-            defaultValue={addon.name}
+            defaultValue={addonCategory.name}
             onChange={(event) =>
-              setAddon({ ...addon, name: event.target.value })
+              setAddonCategory({ ...addonCategory, name: event.target.value })
             }
           />
-          <TextField
-            sx={{ mb: 3 }}
-            defaultValue={addon.price}
-            onChange={(event) =>
-              setAddon({ ...addon, price: Number(event.target.value) })
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={addonCategory.is_required ? true : false}
+                onChange={(event) =>
+                  setAddonCategory({
+                    ...addonCategory,
+                    is_required: event.target.checked,
+                  })
+                }
+              />
             }
+            label="required"
           />
+
           <Button
             variant="contained"
             sx={{ width: "fit-content", mb: 3 }}
-            onClick={updateAddon}
+            onClick={updateAddonCategory}
           >
             update
           </Button>
@@ -94,10 +101,10 @@ const EditAddons = () => {
           title="Are you sure you want to delete this addon category?"
           open={open}
           setOpen={setOpen}
-          callback={handleDeleteButton}
+          callback={handleDeleteAddonCategory}
         />
       </Box>
     </Layout>
   );
 };
-export default EditAddons;
+export default EditAddonCategories;

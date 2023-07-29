@@ -66,9 +66,7 @@ const Menus = () => {
                         {menu.price}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s.
+                        {menu.description}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
