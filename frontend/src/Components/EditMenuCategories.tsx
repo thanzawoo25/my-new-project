@@ -1,21 +1,28 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Layout from "./Layout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import {
   getAccessToken,
   getLocationByMenuCategoryId,
   getMenusByMenuCategoryIds,
+  getSelectedLocationId,
 } from "../Utils";
 import Autocomplete from "./Autocomplete";
 import { config } from "../Config/config";
 import MenusCard from "./MenusCard";
 import DeleteDialog from "./DeleteDialog";
+import { Menu } from "../typings/types";
 
 const EditMenuCategories = () => {
-  const { menuCategories, menus, locations, menusMenuCategoriesLocations } =
-    useContext(AppContext);
+  const {
+    menuCategories,
+    menus,
+    locations,
+    menusMenuCategoriesLocations,
+    fetchData,
+  } = useContext(AppContext);
   //console.log("menuCategories", menuCategories);
 
   const params = useParams();
@@ -27,10 +34,13 @@ const EditMenuCategories = () => {
     name: "",
     locationIds: [] as number[],
   });
-  if (!menuCategoryId) return null; // null / react fregment
+  const [selectedMenu, setSelectedMenu] = useState<Menu>();
+  const navigate = useNavigate();
+
   //console.log("menuCategoryId", menuCategoryId);
   const accessToken = getAccessToken();
-
+  const selectedLocationId = getSelectedLocationId() as string;
+  if (!menuCategoryId) return null; // null / react fregment
   const menuCategory = menuCategories.find(
     (item) => item.id === Number(menuCategoryId)
   );
@@ -48,7 +58,7 @@ const EditMenuCategories = () => {
     menuCategoryId,
     menusMenuCategoriesLocations
   );
-  console.log("validMenus", validMenus);
+  //console.log("validMenus", validMenus);
 
   const validLocations = getLocationByMenuCategoryId(
     locations,
@@ -80,8 +90,20 @@ const EditMenuCategories = () => {
     });
   };
 
-  const handleRemovedMenusFromMenuCategories = () => {
-    console.log("hello");
+  const handleRemovedMenusFromMenuCategories = async () => {
+    await fetch(`${config.apiBaseUrl}/menu-categories/removedMenu`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        menuId: selectedMenu?.id,
+        menuCategoryId,
+        locationId: selectedLocationId,
+      }),
+    });
+    accessToken && fetchData();
   };
 
   return (
@@ -132,7 +154,10 @@ const EditMenuCategories = () => {
                   color="error"
                   variant="contained"
                   sx={{ mt: 2, width: "fit-content" }}
-                  onClick={() => setOpen(true)}
+                  onClick={() => {
+                    setOpen(true);
+                    setSelectedMenu(item);
+                  }}
                 >
                   Removed
                 </Button>

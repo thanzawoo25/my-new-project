@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, response } from "express";
 import { checkAuth } from "../utils/auth";
 import { db } from "../db/db";
 
@@ -49,6 +49,29 @@ menuCategoriesRouter.put(
         );
       });
     }
+    response.send(200);
+  }
+);
+
+menuCategoriesRouter.put(
+  "/removedMenu",
+  checkAuth,
+  async (request: Request, response: Response) => {
+    const { menuId, menuCategoryId, locationId } = request.body;
+    const isValid = menuId && menuCategoryId && locationId;
+    if (!isValid) return response.send(400);
+
+    const menusMenuCategoriesLocations = await db.query(
+      "select * from menus_menu_categories_locations where menus_id =$1 and menu_categories_id=$2 and locations_id =$3",
+      [menuId, menuCategoryId, locationId]
+    );
+    const hasMenusMenuCategoriesLocations =
+      menusMenuCategoriesLocations.rows.length;
+    if (!hasMenusMenuCategoriesLocations) return response.send(400);
+    await db.query(
+      "update menus_menu_categories_locations set is_archived = true where menus_id =$1 and menu_categories_id=$2 and locations_id =$3",
+      [menuId, menuCategoryId, locationId]
+    );
     response.send(200);
   }
 );

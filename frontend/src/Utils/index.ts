@@ -53,7 +53,7 @@ export const getMenusByMenuCategoryIds = (
         item.locations_id === Number(selectedLocationId)
     )
     .map((item) => item.menus_id);
-  console.log("validMenuIds", validMenuIds);
+  //console.log("validMenuIds", validMenuIds);
   return menus.filter((item) => validMenuIds.includes(item.id as number));
 };
 

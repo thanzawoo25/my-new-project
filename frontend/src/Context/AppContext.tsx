@@ -57,7 +57,7 @@ const AppProvider = (props: any) => {
     }
   }, [accessToken]);
 
-  console.log("data", data);
+  //console.log("data", data);
 
   const fetchData = async () => {
     //console.log(config)
@@ -69,7 +69,7 @@ const AppProvider = (props: any) => {
     });
     const responseJson = await response.json();
 
-    console.log("Response from server", responseJson);
+    //console.log("Response from server", responseJson);
 
     const {
       menus,

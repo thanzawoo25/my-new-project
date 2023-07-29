@@ -18,7 +18,7 @@ import {
   getMenuCategoriesByLocationIds,
   getSelectedLocationId,
 } from "../Utils";
-console.log(config);
+//console.log(config);
 
 interface Props {
   open: boolean;
