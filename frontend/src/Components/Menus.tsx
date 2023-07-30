@@ -48,7 +48,7 @@ const Menus = () => {
               justifyContent: "center",
             }}
           >
-            {menus.map((menu) => {
+            {isValidMenus.map((menu) => {
               return (
                 <Card key={menu.id} sx={{ maxWidth: 345, mr: 2, mb: 3 }}>
                   <CardActionArea>
