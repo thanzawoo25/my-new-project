@@ -1,6 +1,7 @@
 import express, { Request, Response, response } from "express";
 import { checkAuth } from "../utils/auth";
 import { db } from "../db/db";
+import { rmSync } from "fs";
 
 const menuCategoriesRouter = express.Router();
 
@@ -72,6 +73,34 @@ menuCategoriesRouter.put(
       "update menus_menu_categories_locations set is_archived = true where menus_id =$1 and menu_categories_id=$2 and locations_id =$3",
       [menuId, menuCategoryId, locationId]
     );
+    response.send(200);
+  }
+);
+
+menuCategoriesRouter.delete(
+  "/:id",
+  checkAuth,
+  async (request: Request, response: Response) => {
+    const isValid = request.params.id && request.body.locationId;
+    if (!isValid) return response.send(400);
+    const menuCategoryId = request.params.id as string;
+    const locationId = request.body.locationId as string;
+
+    const menusMenuCategoriesLocations = await db.query(
+      "select * from menus_menu_categories_locations where menu_categories_id = $1 and locations_id = $2",
+      [menuCategoryId, locationId]
+    );
+    const hasMenusMenuCategoriesLocations =
+      menusMenuCategoriesLocations.rows.length;
+    if (!hasMenusMenuCategoriesLocations) return response.send(400);
+    menusMenuCategoriesLocations.rows.forEach(async (item) => {
+      const menusMenuCategoriesLocationId = item.id;
+      await db.query(
+        "update menus_menu_categories_locations set is_archived = true where id =$1",
+        [menusMenuCategoriesLocationId]
+      );
+    });
+
     response.send(200);
   }
 );
