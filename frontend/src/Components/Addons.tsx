@@ -26,38 +26,41 @@ const Addons = () => {
   return (
     <Layout title="Addons">
       <Box sx={{ pl: 3, pt: 5, display: "flex" }}>
-        {validAddons.map((item) => {
-          return (
-            <Link
-              key={item.id}
-              to={`/addons/${item.id}`}
-              style={{ textDecoration: "none", color: "#000000" }}
-            >
-              <Paper
-                elevation={2}
-                sx={{
-                  height: 170,
-                  width: 170,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mr: 3,
-                  mb: 3,
-                  pb: 3,
-                  pl: 3,
-                }}
+        {validAddons
+          .slice()
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((item) => {
+            return (
+              <Link
+                key={item.id}
+                to={`/addons/${item.id}`}
+                style={{ textDecoration: "none", color: "#000000" }}
               >
-                <Typography sx={{ color: "black", fontWeight: 700 }}>
-                  {item.name}
-                </Typography>
-                <Typography sx={{ color: "black", fontsize: 15 }}>
-                  {item.price}
-                </Typography>
-              </Paper>
-            </Link>
-          );
-        })}
+                <Paper
+                  elevation={2}
+                  sx={{
+                    height: 170,
+                    width: 170,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    mr: 3,
+                    mb: 3,
+                    pb: 3,
+                    pl: 3,
+                  }}
+                >
+                  <Typography sx={{ color: "black", fontWeight: 700 }}>
+                    {item.name}
+                  </Typography>
+                  <Typography sx={{ color: "black", fontsize: 15 }}>
+                    {item.price}
+                  </Typography>
+                </Paper>
+              </Link>
+            );
+          })}
       </Box>
     </Layout>
   );

@@ -31,10 +31,9 @@ const EditAddons = () => {
     });
     fetchData();
     navigate("/addons");
-    navigate("/addons");
   };
 
-  const handleDeleteButton = async () => {
+  const handleDeleteAddon = async () => {
     await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
       method: "DELETE",
       headers: {
@@ -94,7 +93,7 @@ const EditAddons = () => {
           title="Are you sure you want to delete this addon category?"
           open={open}
           setOpen={setOpen}
-          callback={handleDeleteButton}
+          callback={handleDeleteAddon}
         />
       </Box>
     </Layout>

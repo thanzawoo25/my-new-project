@@ -26,9 +26,21 @@ const EditAddonCategories = () => {
   const [open, setOpen] = useState(false);
   const [addonCategory, setAddonCategory] = useState<AddonCategory>();
 
-  const updateAddonCategory = () => {
-    console.log("updateAddonCategories");
+  const updateAddonCategory = async () => {
+    if (!addonCategory?.name) return;
+    await fetch(`${config.apiBaseUrl}/addon-categories/${addonCategoryId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addonCategory),
+    });
+    accessToken && fetchData();
+    setOpen(false);
+    navigate("/addon-categories");
   };
+
   const handleDeleteAddonCategory = async () => {
     await fetch(`${config.apiBaseUrl}/addon-categories/${addonCategoryId}`, {
       method: "DELETE",
@@ -91,7 +103,7 @@ const EditAddonCategories = () => {
 
           <Button
             variant="contained"
-            sx={{ width: "fit-content", mb: 3 }}
+            sx={{ width: "fit-content", mb: 3, mt: 3 }}
             onClick={updateAddonCategory}
           >
             update
