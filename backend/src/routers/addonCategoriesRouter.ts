@@ -51,14 +51,14 @@ addonCategoriesRouter.post(
     const isValid = name && isRequired !== undefined && menuIds.length;
     if (!isValid) return response.send(400);
 
-    const newAddonCategorie = await db.query(
+    const newAddonCategories = await db.query(
       "insert into addon_categories (name,is_required) values($1,$2) returning *",
       [name, isRequired]
     );
-    const newAddonCategoryId = newAddonCategorie.rows[0].id;
+    const newAddonCategoryId = newAddonCategories.rows[0].id;
     menuIds.forEach(async (item: number) => {
       await db.query(
-        "insert into menus_addon_categories (menus_id,addon_categories_id,is) values ($1,$2) returning *",
+        "insert into menus_addon_categories (menus_id,addon_categories_id) values ($1,$2) returning *",
         [item, newAddonCategoryId]
       );
     });

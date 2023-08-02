@@ -46,34 +46,37 @@ const AddonCategories = () => {
           </Button>
         </Box>
         <Box sx={{ display: "flex" }}>
-          {validAddonCategories.map((addonCategory) => (
-            <Link
-              to={`/addon-categories/${addonCategory.id}`}
-              key={addonCategory.id}
-              style={{ textDecoration: "none", color: "#000000" }}
-            >
-              <Paper
-                elevation={2}
-                sx={{
-                  height: 150,
-                  width: 150,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "flex-end",
-                  mr: 3,
-                  pl: 2,
-                  pb: 2,
-                }}
+          {validAddonCategories
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((addonCategory) => (
+              <Link
+                to={`/addon-categories/${addonCategory.id}`}
+                key={addonCategory.id}
+                style={{ textDecoration: "none", color: "#000000" }}
               >
-                <Typography sx={{ color: "#000000", fontWeight: 700, mr: 1 }}>
-                  {addonCategory.name}
-                </Typography>
-                <Typography sx={{ color: "#000000", fontSize: 15 }}>
-                  {getAddonsCount(addonCategory.id)} addons
-                </Typography>
-              </Paper>
-            </Link>
-          ))}
+                <Paper
+                  elevation={2}
+                  sx={{
+                    height: 150,
+                    width: 150,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-end",
+                    mr: 3,
+                    pl: 2,
+                    pb: 2,
+                  }}
+                >
+                  <Typography sx={{ color: "#000000", fontWeight: 700, mr: 1 }}>
+                    {addonCategory.name}
+                  </Typography>
+                  <Typography sx={{ color: "#000000", fontSize: 15 }}>
+                    {getAddonsCount(addonCategory.id)} addons
+                  </Typography>
+                </Paper>
+              </Link>
+            ))}
         </Box>
       </Box>
       <CreateAddonCategorie open={open} setOpen={setOpen} />
