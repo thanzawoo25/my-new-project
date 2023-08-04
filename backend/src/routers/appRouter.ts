@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
+import { config } from "../config/config";
 import { db } from "../db/db";
 import { checkAuth } from "../utils/auth";
-import { config } from "../config/config";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import { fileUpload } from "../utils/fileUpload";
 
 const appRouter = express.Router();
@@ -46,7 +44,7 @@ appRouter.get("/", checkAuth, async (request: Request, response: Response) => {
     );
 
     const menus = await db.query(
-      `select * from menus where id= ANY($1::int[])`,
+      `select * from menus where is_archived = false and id= ANY($1::int[])`,
       [menuIds]
     );
 

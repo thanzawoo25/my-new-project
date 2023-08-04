@@ -1,19 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "../App";
-import Menus from "../Components/Menus";
-import MenuCategories from "../Components/MenuCategories";
 import AddonCategories from "../Components/AddonCategories";
 import Addons from "../Components/Addons";
-import Settings from "../Components/Settings";
+import EditAddonCategories from "../Components/EditAddonCategories";
+import EditAddons from "../Components/EditAddons";
+import EditMenuCategories from "../Components/EditMenuCategories";
+import EditMenus from "../Components/EditMenus";
+import Locations from "../Components/Locations";
 import Login from "../Components/Login";
 import Logout from "../Components/Logout";
+import MenuCategories from "../Components/MenuCategories";
+import Menus from "../Components/Menus";
 import Register from "../Components/Register";
-import PrivateRoute from "./PrivateRoute";
-import Locations from "../Components/Locations";
+import Settings from "../Components/Settings";
 import Tables from "../Components/Tables";
-import EditMenuCategories from "../Components/EditMenuCategories";
-import EditAddons from "../Components/EditAddons";
-import EditAddonCategories from "../Components/EditAddonCategories";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/" Component={App} />
           <Route path="/menus" Component={Menus} />
+          <Route path="/menus/:id" Component={EditMenus} />
           <Route path="/menu-categories" Component={MenuCategories} />
           <Route path="/menu-categories/:id" Component={EditMenuCategories} />
           <Route path="/addons" Component={Addons} />

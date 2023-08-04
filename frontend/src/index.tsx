@@ -1,20 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Register from './Components/Register';
-import Login from './Components/Login';
-import Orders from './Components/Orders';
-import Menus from './Components/Menus';
-import MenuCategories from './Components/MenuCategories';
-import Settings from './Components/Settings';
-import Locations from './Components/Locations';
-import Addons from './Components/Addons';
-import AddonCategories from './Components/AddonCategories';
-import Logout from './Components/Logout';
-import AppProvider from './Context/AppContext';
-import Router from './Routes/Router';
+import ReactDOM from "react-dom/client";
+import AppProvider from "./Context/AppContext";
+import Router from "./Routes/Router";
+import "./index.css";
 
 // const router = createBrowserRouter([
 //   {
@@ -63,11 +50,10 @@ import Router from './Routes/Router';
 //   },
 // ])
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <AppProvider>
-    <Router/>
+    <Router />
   </AppProvider>
-  
-)
+);

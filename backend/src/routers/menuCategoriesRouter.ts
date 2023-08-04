@@ -1,9 +1,30 @@
-import express, { Request, Response, response } from "express";
-import { checkAuth } from "../utils/auth";
+import express, { Request, Response } from "express";
 import { db } from "../db/db";
-import { rmSync } from "fs";
+import { checkAuth } from "../utils/auth";
 
 const menuCategoriesRouter = express.Router();
+
+menuCategoriesRouter.post(
+  "/",
+  checkAuth,
+  async (request: Request, response: Response) => {
+    const { name, locationIds } = request.body;
+    const isValid = name && locationIds.length;
+    if (!isValid) return response.send(400);
+    const newMenuCategoryResult = await db.query(
+      "insert into menu_categories (name) values ($1) returning *",
+      [name]
+    );
+    const newMenuCategoryId = newMenuCategoryResult.rows[0].id;
+    locationIds.forEach(async (item: number) => {
+      await db.query(
+        "insert into menus_menu_categories_locations (menu_categories_id,locations_id) values ($1,$2)",
+        [newMenuCategoryId, item]
+      );
+    });
+    response.send(200);
+  }
+);
 
 menuCategoriesRouter.put(
   "/",

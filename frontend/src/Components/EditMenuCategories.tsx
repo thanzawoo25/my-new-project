@@ -1,7 +1,8 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import Layout from "./Layout";
-import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { config } from "../Config/config";
 import { AppContext } from "../Context/AppContext";
 import {
   getAccessToken,
@@ -9,12 +10,11 @@ import {
   getMenusByMenuCategoryIds,
   getSelectedLocationId,
 } from "../Utils";
-import Autocomplete from "./Autocomplete";
-import { config } from "../Config/config";
-import MenusCard from "./MenusCard";
-import DeleteDialog from "./DeleteDialog";
 import { Menu } from "../typings/types";
-import DeleteIcon from "@mui/icons-material/Delete";
+import Autocomplete from "./Autocomplete";
+import DeleteDialog from "./DeleteDialog";
+import Layout from "./Layout";
+import MenusCard from "./MenusCard";
 
 const EditMenuCategories = () => {
   const {

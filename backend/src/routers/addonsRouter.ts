@@ -1,6 +1,6 @@
-import express, { Request, Response, response } from "express";
-import { checkAuth } from "../utils/auth";
+import express, { Request, Response } from "express";
 import { db } from "../db/db";
+import { checkAuth } from "../utils/auth";
 
 const addonsRouter = express.Router();
 
@@ -46,6 +46,21 @@ addonsRouter.put(
       price,
       addonId,
     ]);
+    response.send(200);
+  }
+);
+
+addonsRouter.post(
+  "/",
+  checkAuth,
+  async (request: Request, response: Response) => {
+    const { name, price = 0, addonCategoryId } = request.body;
+    const isValid = name && addonCategoryId && price;
+    if (!isValid) return response.send(400);
+    await db.query(
+      "insert into addons (name,price,addon_categories_id) values ($1,$2,$3) returning * ",
+      [name, price, addonCategoryId]
+    );
     response.send(200);
   }
 );

@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import { checkAuth } from "../utils/auth";
 import { db } from "../db/db";
+import { checkAuth } from "../utils/auth";
 
 const menusRouter = express.Router();
 
@@ -28,6 +28,62 @@ menusRouter.post(
       );
     });
     response.send(newMenuResult.rows);
+  }
+);
+
+menusRouter.post(
+  "/",
+  checkAuth,
+  async (request: Request, response: Response) => {
+    const { id, name, price, addonCategoryIds } = request.body;
+    const isValid = id && name;
+    if (!isValid) return response.send(400);
+    await db.query("update menus set (name,price)vlaues($1,$2)returning*", [
+      name,
+      price,
+    ]);
+    const existinAddonCategoryIds = await db.query(
+      "select addon_categories_id from menus_addon_categories where menus_id = $1",
+      [id]
+    );
+    const removedAddonCategoryIds = existinAddonCategoryIds.rows.filter(
+      (item) => !addonCategoryIds.includes(item.addon_categories_id)
+    );
+
+    if (removedAddonCategoryIds.length) {
+      removedAddonCategoryIds.forEach(
+        async (item: any) =>
+          await db.query(
+            "delete from menus_addon_categories where menus_id=$1 and addon_categories_id =$2",
+            [id, item.addon_categories_id]
+          )
+      );
+      const addedAddonCategoryIds = addonCategoryIds.filter(
+        (item: number) => !existinAddonCategoryIds.rows.includes(item)
+      );
+      if (addedAddonCategoryIds) {
+        addedAddonCategoryIds.forEach(async (item: number) => {
+          await db.query(
+            "insert into addon_categories (menus_id,addon_categories_id) vlaues ($1,$2) ",
+            [id, item]
+          );
+        });
+      }
+    }
+    response.send(200);
+  }
+);
+
+menusRouter.delete(
+  "/:menuId",
+  checkAuth,
+  async (req: Request, res: Response) => {
+    const menuId = req.params.menuId;
+    if (!menuId) return res.send(400);
+    await db.query("update menus set is_archived = true where id = $1", [
+      menuId,
+    ]);
+    res.send(200);
   }
 );
 export default menusRouter;

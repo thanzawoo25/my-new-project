@@ -10,11 +10,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import Autocomplete from "./Autocomplete";
-import { getAccessToken } from "../Utils";
 import { useNavigate } from "react-router-dom";
 import { config } from "../Config/config";
 import { AppContext } from "../Context/AppContext";
+import { getAccessToken } from "../Utils";
+import Autocomplete from "./Autocomplete";
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
@@ -51,7 +51,9 @@ const CreateAddonCategories = ({ open, setOpen }: Props) => {
   }));
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>Create Addon categories</DialogTitle>
+      <DialogTitle sx={{ display: "flex", justifyContent: "center" }}>
+        Create Addon categories
+      </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <TextField

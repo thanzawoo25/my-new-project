@@ -77,6 +77,19 @@ export const getAddonCategoriesByLocationId = (
   );
 };
 
+export const getAddonCategoriesByMenuId = (
+  addonCategories: AddonCategory[],
+  menusAddonCategories: MenusAddonCategory[],
+  menuId: string
+) => {
+  const validAddonCategoryIds = menusAddonCategories
+    .filter((item) => item.menus_id === Number(menuId))
+    .map((item) => item.addon_categories_id);
+  return addonCategories.filter((item) =>
+    validAddonCategoryIds.includes(item.id as number)
+  );
+};
+
 export const getAddonsByLocationIds = (
   addons: Addon[],
   addonCategories: AddonCategory[]

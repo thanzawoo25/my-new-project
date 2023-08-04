@@ -9,15 +9,15 @@ import {
   TextField,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import FileDropzone from "./FileDropzone";
 import { config } from "../Config/config";
-import Autocomplete from "./Autocomplete";
 import { AppContext } from "../Context/AppContext";
 import {
   getAccessToken,
   getMenuCategoriesByLocationIds,
   getSelectedLocationId,
 } from "../Utils";
+import Autocomplete from "./Autocomplete";
+import FileDropzone from "./FileDropzone";
 //console.log(config);
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
   setOpen: (value: boolean) => void;
 }
 
-const NewMenu = ({ open, setOpen }: Props) => {
+const CreateMenus = ({ open, setOpen }: Props) => {
   const { menuCategories, menusMenuCategoriesLocations, fetchData } =
     useContext(AppContext);
   const selectedLocationId = getSelectedLocationId() as string;
@@ -46,7 +46,7 @@ const NewMenu = ({ open, setOpen }: Props) => {
     setSelectedFiles(selectedFiles);
   };
 
-  const createNewMenu = async () => {
+  const createNewMenus = async () => {
     console.log("Create new menu", newMenu);
     const isValid =
       newMenu.name && newMenu.description && newMenu.menuCategoryIds.length;
@@ -168,7 +168,7 @@ const NewMenu = ({ open, setOpen }: Props) => {
             mx: 4,
           }}
         >
-          <Button variant="contained" onClick={createNewMenu}>
+          <Button variant="contained" onClick={createNewMenus}>
             Create
           </Button>
         </Box>
@@ -176,4 +176,4 @@ const NewMenu = ({ open, setOpen }: Props) => {
     </Dialog>
   );
 };
-export default NewMenu;
+export default CreateMenus;

@@ -1,3 +1,4 @@
+import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
@@ -7,13 +8,12 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import NavBar from "./NavBar";
-import Layout from "./Layout";
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
 import { getMenusByLocationId } from "../Utils";
-import AddIcon from "@mui/icons-material/Add";
-import NewMenu from "./NewMenu";
+import CreateMenus from "./CreateMenus";
+import Layout from "./Layout";
 
 const Menus = () => {
   const { menus, menusMenuCategoriesLocations } = useContext(AppContext);
@@ -48,9 +48,13 @@ const Menus = () => {
               justifyContent: "center",
             }}
           >
-            {isValidMenus.map((menu) => {
-              return (
-                <Card key={menu.id} sx={{ maxWidth: 345, mr: 2, mb: 3 }}>
+            {isValidMenus.map((menu) => (
+              <Link
+                key={menu.id}
+                to={`/menus/${menu.id}`}
+                style={{ textDecoration: "none", color: "#000000" }}
+              >
+                <Card sx={{ maxWidth: 345, mr: 2, mb: 3 }}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
@@ -71,12 +75,12 @@ const Menus = () => {
                     </CardContent>
                   </CardActionArea>
                 </Card>
-              );
-            })}
+              </Link>
+            ))}
           </Box>
         </Box>
         <Box>
-          <NewMenu open={open} setOpen={setOpen} />
+          <CreateMenus open={open} setOpen={setOpen} />
         </Box>
       </Layout>
     </Box>

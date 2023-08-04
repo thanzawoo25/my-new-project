@@ -1,6 +1,6 @@
-import express, { Request, Response, response } from "express";
-import { checkAuth } from "../utils/auth";
+import express, { Request, Response } from "express";
 import { db } from "../db/db";
+import { checkAuth } from "../utils/auth";
 
 const addonCategoriesRouter = express.Router();
 
@@ -43,6 +43,7 @@ addonCategoriesRouter.put(
     response.send(200);
   }
 );
+
 addonCategoriesRouter.post(
   "/",
   checkAuth,
