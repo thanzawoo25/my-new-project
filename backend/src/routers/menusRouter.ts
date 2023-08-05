@@ -31,14 +31,16 @@ menusRouter.post(
   }
 );
 
-menusRouter.post(
+menusRouter.put(
   "/",
   checkAuth,
   async (request: Request, response: Response) => {
     const { id, name, price, addonCategoryIds } = request.body;
+
     const isValid = id && name;
+    console.log("addOnID", addonCategoryIds);
     if (!isValid) return response.send(400);
-    await db.query("update menus set (name,price)vlaues($1,$2)returning*", [
+    await db.query("update menus set name =$1, price =$2 returning *", [
       name,
       price,
     ]);
@@ -46,6 +48,7 @@ menusRouter.post(
       "select addon_categories_id from menus_addon_categories where menus_id = $1",
       [id]
     );
+
     const removedAddonCategoryIds = existinAddonCategoryIds.rows.filter(
       (item) => !addonCategoryIds.includes(item.addon_categories_id)
     );
@@ -64,7 +67,7 @@ menusRouter.post(
       if (addedAddonCategoryIds) {
         addedAddonCategoryIds.forEach(async (item: number) => {
           await db.query(
-            "insert into addon_categories (menus_id,addon_categories_id) vlaues ($1,$2) ",
+            "insert into addon_categories (menus_id,addon_categories_id) values ($1,$2) ",
             [id, item]
           );
         });

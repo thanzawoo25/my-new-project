@@ -1,5 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { config } from "../Config/config";
@@ -33,11 +33,29 @@ const EditMenus = () => {
       setMenu(validMenu);
     }
   }, [menus]);
+  useEffect(() => {
+    if (addonCategoryIds?.length) {
+      setAddonCategoryIds(validAddonCategoriesId);
+    }
+  }, [addonCategories]);
+  console.log("addonCategoriesIds", addonCategoryIds);
+
+  if (!menu)
+    return (
+      <Layout title="Edit Menus">
+        <Box sx={{ p: 5 }}>
+          <Typography>Menus not found.</Typography>
+        </Box>
+      </Layout>
+    );
 
   const mappedValidAddonCategories = validAddonCategories.map((item) => ({
     id: item.id as number,
     name: item.name,
   }));
+  const validAddonCategoriesId = mappedValidAddonCategories.map(
+    (item) => item.id
+  );
 
   const mappedAddonCategories = addonCategories.map((item) => ({
     id: item.id as number,
@@ -66,6 +84,7 @@ const EditMenus = () => {
     accessToken && fetchData();
     navigate("/menus");
   };
+
   if (!menus) return null; // null / react fregment
 
   return (
