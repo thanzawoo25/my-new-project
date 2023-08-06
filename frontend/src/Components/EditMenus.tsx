@@ -33,12 +33,6 @@ const EditMenus = () => {
       setMenu(validMenu);
     }
   }, [menus]);
-  useEffect(() => {
-    if (addonCategoryIds?.length) {
-      setAddonCategoryIds(validAddonCategoriesId);
-    }
-  }, [addonCategories]);
-  console.log("addonCategoriesIds", addonCategoryIds);
 
   if (!menu)
     return (
@@ -53,9 +47,6 @@ const EditMenus = () => {
     id: item.id as number,
     name: item.name,
   }));
-  const validAddonCategoriesId = mappedValidAddonCategories.map(
-    (item) => item.id
-  );
 
   const mappedAddonCategories = addonCategories.map((item) => ({
     id: item.id as number,
@@ -72,6 +63,8 @@ const EditMenus = () => {
       },
       body: JSON.stringify(payload),
     });
+    accessToken && fetchData();
+    navigate("/menus");
   };
 
   const handleDeleteMenu = async () => {

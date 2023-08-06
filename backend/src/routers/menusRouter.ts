@@ -40,37 +40,39 @@ menusRouter.put(
     const isValid = id && name;
     console.log("addOnID", addonCategoryIds);
     if (!isValid) return response.send(400);
-    await db.query("update menus set name =$1, price =$2 returning *", [
-      name,
-      price,
-    ]);
+    await db.query(
+      "update menus set name =$1, price =$2 where id =$3 returning *",
+      [name, price, id]
+    );
     const existinAddonCategoryIds = await db.query(
       "select addon_categories_id from menus_addon_categories where menus_id = $1",
       [id]
     );
 
-    const removedAddonCategoryIds = existinAddonCategoryIds.rows.filter(
-      (item) => !addonCategoryIds.includes(item.addon_categories_id)
-    );
+    if (addonCategoryIds) {
+      const removedAddonCategoryIds = existinAddonCategoryIds.rows.filter(
+        (item) => !addonCategoryIds.includes(item.addon_categories_id)
+      );
 
-    if (removedAddonCategoryIds.length) {
-      removedAddonCategoryIds.forEach(
-        async (item: any) =>
-          await db.query(
-            "delete from menus_addon_categories where menus_id=$1 and addon_categories_id =$2",
-            [id, item.addon_categories_id]
-          )
-      );
-      const addedAddonCategoryIds = addonCategoryIds.filter(
-        (item: number) => !existinAddonCategoryIds.rows.includes(item)
-      );
-      if (addedAddonCategoryIds) {
-        addedAddonCategoryIds.forEach(async (item: number) => {
-          await db.query(
-            "insert into addon_categories (menus_id,addon_categories_id) values ($1,$2) ",
-            [id, item]
-          );
-        });
+      if (removedAddonCategoryIds.length) {
+        removedAddonCategoryIds.forEach(
+          async (item: any) =>
+            await db.query(
+              "delete from menus_addon_categories where menus_id=$1 and addon_categories_id =$2",
+              [id, item.addon_categories_id]
+            )
+        );
+        const addedAddonCategoryIds = addonCategoryIds.filter(
+          (item: number) => !existinAddonCategoryIds.rows.includes(item)
+        );
+        if (addedAddonCategoryIds) {
+          addedAddonCategoryIds.forEach(async (item: number) => {
+            await db.query(
+              "insert into addon_categories (menus_id,addon_categories_id) values ($1,$2) ",
+              [id, item]
+            );
+          });
+        }
       }
     }
     response.send(200);
