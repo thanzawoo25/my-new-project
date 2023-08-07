@@ -91,6 +91,8 @@ const EditMenuCategories = () => {
       },
       body: JSON.stringify(newMenuCategory),
     });
+    accessToken && fetchData();
+    navigate("/menu-categories");
   };
 
   const handleRemovedMenusFromMenuCategories = async () => {

@@ -33,7 +33,7 @@ const CreateMenuCategories = ({ open, setOpen }: Props) => {
     const isValid =
       newMenuCategories.name && newMenuCategories.locationIds.length;
 
-    if (!isValid) return alert("Name and location required..");
+    if (!isValid) return alert("Name and locations required..");
 
     await fetch(`${config.apiBaseUrl}/menu-categories`, {
       method: "POST",
@@ -91,26 +91,6 @@ const CreateMenuCategories = ({ open, setOpen }: Props) => {
               }
             />
           </Box>
-          {/* <Box>
-            <FileDropzone onFileSelected={onFileSelected} />
-            <Box sx={{ mt: 2 }}>
-              {selectedFiles.map((file) => {
-                return (
-                  <Chip
-                    sx={{ mb: 2 }}
-                    key={file.name}
-                    label={file.name}
-                    onDelete={() => {
-                      const filteredSelectFiles = selectedFiles.filter(
-                        (selectedFile) => selectedFile.name !== file.name
-                      );
-                      setSelectedFiles(filteredSelectFiles);
-                    }}
-                  />
-                );
-              })}
-            </Box>
-          </Box> */}
         </Box>
       </DialogContent>
 

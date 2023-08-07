@@ -58,6 +58,7 @@ const Addons = () => {
                       flexDirection: "column",
                       justifyContent: "flex-end",
                       alignItems: "center",
+                      p: 5,
                       mr: 3,
                       mb: 3,
                       pb: 3,
