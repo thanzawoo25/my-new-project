@@ -1,21 +1,17 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express, { response } from "express";
 import cors from "cors";
-import { db } from "./src/db/db";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import express from "express";
 import { config } from "./src/config/config";
-import { checkAuth } from "./src/utils/auth";
-import authRouter from "./src/routers/authRouter";
-import menusRouter from "./src/routers/menusRouter";
-import appRouter from "./src/routers/appRouter";
-import LocationsRouter from "./src/routers/locationsRouter";
-import tablesRouter from "./src/routers/tablesRouter";
-import menuCategoriesRouter from "./src/routers/menuCategoriesRouter";
-import addonsRouter from "./src/routers/addonsRouter";
 import addonCategoriesRouter from "./src/routers/addonCategoriesRouter";
+import addonsRouter from "./src/routers/addonsRouter";
+import appRouter from "./src/routers/appRouter";
+import authRouter from "./src/routers/authRouter";
+import locationsRouter from "./src/routers/locationsRouter";
+import menuCategoriesRouter from "./src/routers/menuCategoriesRouter";
+import menusRouter from "./src/routers/menusRouter";
+import tablesRouter from "./src/routers/tablesRouter";
 
 console.log("config", config);
 
@@ -31,7 +27,7 @@ app.use("/menu-categories", menuCategoriesRouter);
 app.use("/addon-categories", addonCategoriesRouter);
 app.use("/addons", addonsRouter);
 app.use("/auth", authRouter);
-app.use("/locations", LocationsRouter);
+app.use("/locations", locationsRouter);
 app.use("/tables", tablesRouter);
 
 app.listen(port, () => {

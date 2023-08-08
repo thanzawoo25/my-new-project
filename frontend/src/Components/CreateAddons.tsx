@@ -25,6 +25,7 @@ const CreateAddons = ({ open, setOpen }: Props) => {
     menusMenuCategoriesLocations,
     addonCategories,
     menusAddonCategories,
+    locations,
   } = useContext(AppContext);
   const accessToken = getAccessToken();
   const [newAddon, setNewAddon] = useState({

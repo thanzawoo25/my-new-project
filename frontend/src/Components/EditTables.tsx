@@ -5,36 +5,37 @@ import { useNavigate, useParams } from "react-router-dom";
 import { config } from "../Config/config";
 import { AppContext } from "../Context/AppContext";
 import { getAccessToken } from "../Utils";
-import { Addon } from "../typings/types";
+import { Tables } from "../typings/types";
 import DeleteDialog from "./DeleteDialog";
 import Layout from "./Layout";
 
-const EditAddons = () => {
+const EditTables = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const addonId = params.id as string;
-  const { addons, fetchData } = useContext(AppContext);
+  const tableId = params.id as string;
+  const { tables, fetchData } = useContext(AppContext);
   const accessToken = getAccessToken();
 
   const [open, setOpen] = useState(false);
-  const [addon, setAddon] = useState<Addon>();
+  const [table, setTable] = useState<Tables>();
 
-  const updateAddon = async () => {
-    if (!addon?.name) return;
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
+  const updateTables = async () => {
+    const isValid = table?.name;
+    if (!isValid) return alert("Table name is required.");
+    await fetch(`${config.apiBaseUrl}/tables/${tableId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(addon),
+      body: JSON.stringify(table),
     });
     fetchData();
-    navigate("/addons");
+    navigate("/tables");
   };
 
-  const handleDeleteAddon = async () => {
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
+  const handleDeleteTable = async () => {
+    await fetch(`${config.apiBaseUrl}/tables/${tableId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -42,19 +43,19 @@ const EditAddons = () => {
     });
     accessToken && fetchData();
     setOpen(false);
-    navigate("/addons");
+    navigate("/tables");
   };
   useEffect(() => {
-    if (addons.length) {
-      const validAddon = addons.find((item) => item.id === Number(addonId));
-      setAddon(validAddon);
+    if (tables.length) {
+      const validTable = tables.find((item) => item.id === Number(tableId));
+      validTable && setTable(validTable);
     }
-  }, [addons]);
+  }, [tables]);
 
-  if (!addon) return null;
+  if (!table) return null;
 
   return (
-    <Layout title="Edit Addon">
+    <Layout title="Edit Tables">
       <Box sx={{ mt: 3, mx: 5 }}>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 5 }}>
           <Button
@@ -66,37 +67,31 @@ const EditAddons = () => {
             Delete
           </Button>
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", width: 400 }}>
           <TextField
             sx={{ mb: 3 }}
-            defaultValue={addon.name}
+            defaultValue={table.name}
             onChange={(event) =>
-              setAddon({ ...addon, name: event.target.value })
+              setTable({ ...table, name: event.target.value })
             }
           />
-          <TextField
-            sx={{ mb: 3 }}
-            defaultValue={addon.price}
-            onChange={(event) =>
-              setAddon({ ...addon, price: Number(event.target.value) })
-            }
-          />
+
           <Button
             variant="contained"
             sx={{ width: "fit-content", mb: 3 }}
-            onClick={updateAddon}
+            onClick={updateTables}
           >
             update
           </Button>
         </Box>
         <DeleteDialog
-          title="Are you sure you want to delete this addon?"
+          title="Are you sure you want to delete this table?"
           open={open}
           setOpen={setOpen}
-          callback={handleDeleteAddon}
+          callback={handleDeleteTable}
         />
       </Box>
     </Layout>
   );
 };
-export default EditAddons;
+export default EditTables;

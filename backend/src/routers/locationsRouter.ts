@@ -1,39 +1,35 @@
-import express, { Request, Response, response } from "express";
-import { checkAuth } from "../utils/auth";
+import express, { Request, Response } from "express";
 import { db } from "../db/db";
+import { checkAuth } from "../utils/auth";
 
-const LocationsRouter = express.Router();
+const locationsRouter = express.Router();
 
-LocationsRouter.put(
-  "/:locationId",
+locationsRouter.put(
+  "/:id",
   checkAuth,
   async (request: Request, response: Response) => {
-    const locationId = request.params.locationId;
+    const locationId = request.params.id;
     const { name, address } = request.body;
-    if (name && !address) {
-      const updatedLocation = await db.query(
-        "update locations set name= $1 where id = $2",
-        [name, locationId]
-      );
-    } else if (address && !name) {
-      const updatedLocation = await db.query(
-        "update locations set address=$1 where id = $2 ",
-        [address, locationId]
-      );
-    } else if (name && address) {
-      const updatedLocation = await db.query(
-        "update locations set name =$1,address=$2 where id=$3",
-        [name, address, locationId]
-      );
-    } else {
-      response.sendStatus(400);
-    }
+    const isValid = locationId && name && address;
+    if (!isValid) return response.send(400);
 
-    response.send({ message: "Update....." });
+    const hasExistingLocation = await db.query(
+      "select * from locations  where id =$1",
+      [locationId]
+    );
+    const hasExistingLocationId = hasExistingLocation.rows.length > 0;
+    if (!hasExistingLocationId) return response.send(400);
+
+    await db.query("update locations set name = $1,address=$2 where id = $3", [
+      name,
+      address,
+      locationId,
+    ]);
+    response.send(200);
   }
 );
 
-LocationsRouter.post(
+locationsRouter.post(
   "/",
   checkAuth,
   async (request: Request, response: Response) => {
@@ -49,22 +45,23 @@ LocationsRouter.post(
   }
 );
 
-LocationsRouter.delete(
-  "/:locationId",
+locationsRouter.delete(
+  "/:id",
   checkAuth,
   async (request: Request, response: Response) => {
-    const locationId = request.params.locationId;
-    if (!locationId) return response.sendStatus(400);
-    try {
-      await db.query(
-        "DELETE from menus_menu_categories_locations where locations_id=$1",
-        [locationId]
-      );
-      await db.query("DELETE from locations where id =$1", [locationId]);
-      response.sendStatus(200);
-    } catch (error) {
-      response.sendStatus(500);
-    }
+    const locationId = request.params.id;
+    if (!locationId) return response.send(400);
+    const existingLocation = await db.query(
+      "select * from locations  where id =$1",
+      [locationId]
+    );
+    const hasExistingLocation = existingLocation.rows.length;
+    if (!hasExistingLocation) return response.send(400);
+
+    await db.query("update locations set is_archived = true where id = $1", [
+      locationId,
+    ]);
+    response.send(200);
   }
 );
-export default LocationsRouter;
+export default locationsRouter;

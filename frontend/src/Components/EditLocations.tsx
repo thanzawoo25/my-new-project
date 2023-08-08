@@ -5,56 +5,60 @@ import { useNavigate, useParams } from "react-router-dom";
 import { config } from "../Config/config";
 import { AppContext } from "../Context/AppContext";
 import { getAccessToken } from "../Utils";
-import { Addon } from "../typings/types";
+import { Location } from "../typings/types";
 import DeleteDialog from "./DeleteDialog";
 import Layout from "./Layout";
 
-const EditAddons = () => {
+const EditLocations = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const addonId = params.id as string;
-  const { addons, fetchData } = useContext(AppContext);
+  const locationId = params.id as string;
+  const { locations, fetchData } = useContext(AppContext);
   const accessToken = getAccessToken();
-
   const [open, setOpen] = useState(false);
-  const [addon, setAddon] = useState<Addon>();
+  const [location, setLocation] = useState<Location>();
 
-  const updateAddon = async () => {
-    if (!addon?.name) return;
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
+  const updateLocation = async () => {
+    const isValid = location?.name && location.address;
+    if (!isValid) return alert("Name and address are required.");
+
+    await fetch(`${config.apiBaseUrl}/locations/${locationId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(addon),
+      body: JSON.stringify(location),
     });
-    fetchData();
-    navigate("/addons");
+    accessToken && fetchData();
+    navigate("/locations");
   };
 
-  const handleDeleteAddon = async () => {
-    await fetch(`${config.apiBaseUrl}/addons/${addonId}`, {
+  const handleDeleteLocation = async () => {
+    await fetch(`${config.apiBaseUrl}/locations/${locationId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     accessToken && fetchData();
+    navigate("/locations");
     setOpen(false);
-    navigate("/addons");
   };
-  useEffect(() => {
-    if (addons.length) {
-      const validAddon = addons.find((item) => item.id === Number(addonId));
-      setAddon(validAddon);
-    }
-  }, [addons]);
 
-  if (!addon) return null;
+  useEffect(() => {
+    if (locations.length) {
+      const validLocation = locations.find(
+        (item) => item.id === Number(locationId)
+      );
+      setLocation(validLocation);
+    }
+  }, [locations]);
+
+  if (!location) return null;
 
   return (
-    <Layout title="Edit Addon">
+    <Layout title="Edit Locations">
       <Box sx={{ mt: 3, mx: 5 }}>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 5 }}>
           <Button
@@ -69,34 +73,35 @@ const EditAddons = () => {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <TextField
             sx={{ mb: 3 }}
-            defaultValue={addon.name}
+            defaultValue={location.name}
             onChange={(event) =>
-              setAddon({ ...addon, name: event.target.value })
+              setLocation({ ...location, name: event.target.value })
             }
           />
           <TextField
             sx={{ mb: 3 }}
-            defaultValue={addon.price}
+            defaultValue={location.address}
             onChange={(event) =>
-              setAddon({ ...addon, price: Number(event.target.value) })
+              setLocation({ ...location, address: event.target.value })
             }
           />
+
           <Button
             variant="contained"
             sx={{ width: "fit-content", mb: 3 }}
-            onClick={updateAddon}
+            onClick={updateLocation}
           >
             update
           </Button>
         </Box>
         <DeleteDialog
-          title="Are you sure you want to delete this addon?"
+          title="Are you sure you want to delete this location?"
           open={open}
           setOpen={setOpen}
-          callback={handleDeleteAddon}
+          callback={handleDeleteLocation}
         />
       </Box>
     </Layout>
   );
 };
-export default EditAddons;
+export default EditLocations;

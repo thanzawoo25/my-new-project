@@ -81,6 +81,11 @@ const EditMenuCategories = () => {
     name: item.name,
   }));
 
+  const mappedMenus = menus.map((item) => ({
+    id: item.id as number,
+    name: item.name,
+  }));
+
   const updateMenuCategory = async () => {
     console.log("newMenuCategory", newMenuCategory);
     await fetch(`${config.apiBaseUrl}/menu-categories`, {
@@ -92,7 +97,7 @@ const EditMenuCategories = () => {
       body: JSON.stringify(newMenuCategory),
     });
     accessToken && fetchData();
-    navigate("/menu-categories");
+    navigate("/menu-categories  ");
   };
 
   const handleRemovedMenusFromMenuCategories = async () => {
@@ -169,6 +174,23 @@ const EditMenuCategories = () => {
           >
             Update
           </Button>
+          <Box>
+            <h1>Menus</h1>
+            <Autocomplete
+              options={mappedMenus}
+              label="Menus"
+              placeholder="Menus"
+              onChange={(option) =>
+                setNewMenuCategory({
+                  ...newMenuCategory,
+                  locationIds: option.map((item) => item.id),
+                })
+              }
+            />
+            <Button variant="contained" sx={{ mt: 3 }}>
+              Add
+            </Button>
+          </Box>
           <Box sx={{ mt: 4, display: "flex" }}>
             {validMenus.map((item) => {
               return (
