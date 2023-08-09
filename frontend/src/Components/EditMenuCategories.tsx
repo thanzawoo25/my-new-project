@@ -38,6 +38,7 @@ const EditMenuCategories = () => {
     locationIds: [] as number[],
   });
   const [selectedMenu, setSelectedMenu] = useState<Menu>();
+  const [selectedMenuIds, setSelectedMenuIds] = useState<number[]>([]);
   const navigate = useNavigate();
 
   //console.log("menuCategoryId", menuCategoryId);
@@ -62,15 +63,14 @@ const EditMenuCategories = () => {
     menusMenuCategoriesLocations
   );
   //console.log("validMenus", validMenus);
+  const validMenuIds = validMenus.map((item) => item.id) as number[];
 
   const validLocations = getLocationByMenuCategoryId(
     locations,
     menuCategoryId,
     menusMenuCategoriesLocations
   );
-  //console.log("locations", locations);
-  //console.log("validLocation", validLocations);
-
+  const validLocationIds = validLocations.map((item) => item.id);
   const mappedLocations = locations.map((item) => ({
     id: item.id as number,
     name: item.name,
@@ -81,10 +81,12 @@ const EditMenuCategories = () => {
     name: item.name,
   }));
 
-  const mappedMenus = menus.map((item) => ({
-    id: item.id as number,
-    name: item.name,
-  }));
+  const mappedMenus = menus
+    .map((item) => ({
+      id: item.id as number,
+      name: `${item.name}-${item.id}`,
+    }))
+    .filter((item) => !validMenuIds.includes(item.id));
 
   const updateMenuCategory = async () => {
     console.log("newMenuCategory", newMenuCategory);
@@ -131,6 +133,22 @@ const EditMenuCategories = () => {
     navigate("/menu-categories");
   };
 
+  const handleAddedMenuToMenuCategories = async () => {
+    await fetch(`${config.apiBaseUrl}/menu-categories/addedMenu`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        menuCategoryId,
+        menuId: selectedMenuIds,
+        locationId: validLocationIds,
+      }),
+    });
+    accessToken && fetchData();
+  };
+
   return (
     <Layout title="Edit Menu Categories">
       <Box sx={{ p: 5 }}>
@@ -146,7 +164,7 @@ const EditMenuCategories = () => {
         </Box>
         <Box
           sx={{
-            width: 500,
+            width: 700,
           }}
         >
           <TextField
@@ -181,13 +199,14 @@ const EditMenuCategories = () => {
               label="Menus"
               placeholder="Menus"
               onChange={(option) =>
-                setNewMenuCategory({
-                  ...newMenuCategory,
-                  locationIds: option.map((item) => item.id),
-                })
+                setSelectedMenuIds(option.map((item) => item.id))
               }
             />
-            <Button variant="contained" sx={{ mt: 3 }}>
+            <Button
+              variant="contained"
+              sx={{ mt: 3 }}
+              onClick={handleAddedMenuToMenuCategories}
+            >
               Add
             </Button>
           </Box>
